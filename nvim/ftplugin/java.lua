@@ -1,0 +1,190 @@
+local status, jdtls = pcall(require, "jdtls")
+if not status then
+    return
+end
+
+local mason = require("mason-registry")
+local jdtls_path = mason.get_package("jdtls"):get_install_path()
+
+local equinox_launcher_path = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
+
+-- change this based on system (linux, mac, win32)
+local config_path = vim.fn.glob(jdtls_path .. "/config_mac")
+
+local lombok_path = jdtls_path .. "/lombok.jar"
+
+local extendedClientCapabilities = jdtls.extendedClientCapabilities
+extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
+
+local config = {
+    cmd = {
+        vim.fn.expand("~/.sdkman/candidates/java/21.0.2-amzn/bin/java"),
+
+        "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+        "-Dosgi.bundles.defaultStartLevel=4",
+        "-Declipse.product=org.eclipse.jdt.ls.core.product",
+        "-Dlog.protocol=true",
+        "-Dlog.level=ALL",
+        "-Xmx1g",
+        "--add-modules=ALL-SYSTEM",
+        "--add-opens",
+        "java.base/java.util=ALL-UNNAMED",
+        "--add-opens",
+        "java.base/java.lang=ALL-UNNAMED",
+
+        "-javaagent:" .. lombok_path,
+
+        "-jar",
+        equinox_launcher_path,
+
+        "-configuration",
+        config_path,
+
+        "-data",
+        vim.fn.stdpath("cache") .. "/jdtls/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t"),
+    },
+    root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }),
+
+    capabilities = require("cmp_nvim_lsp").default_capabilities(),
+
+    flags = {
+        debounce_text_changes = 150,
+        allow_incremental_sync = true,
+    },
+
+    settings = {
+        java = {
+            server = { launchMode = "Hybrid" },
+            eclipse = {
+                downloadSources = true,
+            },
+            maven = {
+                downloadSources = true,
+            },
+            configuration = {
+                runtimes = {
+                    -- {
+                    --     name = "JavaSE-17",
+                    --     path = "~/.sdkman/candidates/java/17.0.10-amzn",
+                    -- },
+                    {
+                        name = "JavaSE-21",
+                        path = "~/.sdkman/candidates/java/21.0.2-amzn",
+                    },
+                },
+            },
+            references = {
+                includeDecompiledSources = true,
+            },
+            implementationsCodeLens = {
+                enabled = false,
+            },
+            referencesCodeLens = {
+                enabled = false,
+            },
+            inlayHints = {
+                parameterNames = {
+                    enabled = "all",
+                },
+            },
+            signatureHelp = {
+                enabled = true,
+                description = {
+                    enabled = true,
+                },
+            },
+            sources = {
+                organizeImports = {
+                    starThreshold = 9999,
+                    staticStarThreshold = 9999,
+                },
+            },
+            saveActions = {
+                organizeImports = true,
+            },
+            format = {
+                enabled = true,
+            },
+            quickfix = {
+                showAt = true,
+            },
+            guessMethodArguments = true,
+            contentProvider = { preferred = "fernflower" },
+            completion = {
+                maxResults = 20,
+            },
+            import = {
+                gradle = { enabled = true },
+                generatesMetadataFilesAtProjectRoot = true,
+                maven = { enabled = true },
+                exclusions = {
+                    "**/node_modules/**",
+                },
+            },
+            importOrder = {
+                "java",
+                "javax",
+                "org",
+                "com",
+            },
+            codeGeneration = {
+                toString = {
+                    template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+                },
+                hashCodeEquals = {
+                    useJava7Objects = true,
+                },
+                useBlocks = true,
+            },
+        },
+        redhat = { telemetry = { enabled = false } },
+    },
+
+    init_options = {
+        bundles = {},
+        extendedClientCapabilities = extendedClientCapabilities,
+    },
+}
+
+jdtls.start_or_attach(config)
+
+vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>")
+vim.keymap.set("n", "gD", vim.lsp.buf.declaration)
+vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>")
+vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>")
+vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action)
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename)
+vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>")
+vim.keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>")
+vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float)
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+vim.keymap.set("n", "K", vim.lsp.buf.hover)
+vim.keymap.set("n", "<leader>k", vim.lsp.buf.signature_help)
+vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>")
+
+vim.keymap.set("n", "<leader>co", ":lua require'jdtls'.organize_imports()<CR>")
+-- vim.keymap.set("n", "<leader>dt", "<Cmd>lua require'jdtls'.test_class()<CR>")
+-- vim.keymap.set("n", "<leader>dn", "<Cmd>lua require'jdtls'.test_nearest_method()<CR>")
+vim.keymap.set("n", "<leader>de", "<Cmd>lua require('jdtls').extract_variable()<CR>")
+
+vim.cmd([[autocmd! ColorScheme * highlight NormalFloat guibg=#111111]])
+vim.cmd([[autocmd! ColorScheme * highlight FloatBorder guifg=#8aadf4 guibg=#111111]])
+
+local border = {
+    { "╭", "FloatBorder" },
+    { "─", "FloatBorder" },
+    { "╮", "FloatBorder" },
+    { "│", "FloatBorder" },
+    { "╯", "FloatBorder" },
+    { "─", "FloatBorder" },
+    { "╰", "FloatBorder" },
+    { "│", "FloatBorder" },
+}
+
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+    opts = opts or {}
+    opts.border = opts.border or border
+    return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end

@@ -1,0 +1,60 @@
+return {
+    "nvim-treesitter/nvim-treesitter",
+    version = false,
+    build = function()
+        require("nvim-treesitter.install").update({ with_sync = true })
+    end,
+    event = { "VeryLazy" },
+    dependencies = {
+        "windwp/nvim-ts-autotag",
+        "windwp/nvim-autopairs",
+    },
+    config = function()
+        require("nvim-treesitter.configs").setup({
+            ensure_installed = {
+                "bash",
+                "c",
+                "diff",
+                "html",
+                "css",
+                "xml",
+                "javascript",
+                "typescript",
+                "tsx",
+                "java",
+                "jsdoc",
+                "json",
+                "jsonc",
+                "yaml",
+                "php",
+                "python",
+                "rust",
+                "lua",
+                "luadoc",
+                "markdown",
+                "markdown_inline",
+                "regex",
+                "toml",
+                "vim",
+                "vimdoc",
+            },
+            auto_install = true,
+            sync_install = true,
+            highlight = {
+                enable = true,
+                additional_vim_regex_highlighting = true,
+            },
+            indent = {
+                enable = true,
+            },
+            autopairs = {
+                enable = true,
+            },
+            autotag = {
+                enable = true,
+            },
+        })
+
+        vim.treesitter.language.register("markdown", "mdx")
+    end,
+}
