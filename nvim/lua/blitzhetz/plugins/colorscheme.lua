@@ -5,15 +5,14 @@ return {
         priority = 1000,
         config = function()
             require("catppuccin").setup({
-                flavor = "macchiato",
-                transparent_background = true,
-                color_overrides = {
-                    macchiato = {
-                        base = "#111111",
-                        mantle = "#111111",
-                        crust = "#111111",
-                    },
-                },
+                -- transparent_background = true,
+                -- color_overrides = {
+                --     macchiato = {
+                --         base = "#111111",
+                --         mantle = "#111111",
+                --         crust = "#111111",
+                -- },
+                -- },
                 integrations = {
                     cmp = true,
                     gitsigns = true,
@@ -37,7 +36,7 @@ return {
                 },
             })
 
-            vim.cmd.colorscheme("catppuccin")
+            vim.cmd.colorscheme("catppuccin-macchiato")
         end,
     },
     {
