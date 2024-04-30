@@ -74,6 +74,7 @@ return {
                     select = true,
                 }),
             }),
+            ---@diagnostic disable-next-line: missing-fields
             sorting = {
                 comparators = {
                     cmp.config.compare.offset,
@@ -89,11 +90,12 @@ return {
             },
             sources = cmp.config.sources({
                 { name = "nvim_lsp" },
-                { name = "buffer", max_item_count = 5 },
-                { name = "copilot" },
-                { name = "path", max_item_count = 3 },
                 { name = "luasnip", max_item_count = 3 },
+                { name = "buffer", max_item_count = 5 },
+                -- { name = "copilot" },
+                { name = "path", max_item_count = 3 },
             }),
+            ---@diagnostic disable-next-line: missing-fields
             formatting = {
                 expandable_indicator = true,
                 format = lspkind.cmp_format({

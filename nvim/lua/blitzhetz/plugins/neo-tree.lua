@@ -22,8 +22,5 @@ return {
                 use_libuv_file_watcher = true,
             },
         })
-
-        vim.keymap.set("n", "<leader>ee", "<cmd>Neotree toggle left<CR>")
-        vim.keymap.set("n", "<leader>ef", "<cmd>Neotree focus<CR>")
     end,
 }

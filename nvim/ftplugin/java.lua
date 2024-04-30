@@ -3,6 +3,12 @@ if not status then
     return
 end
 
+local home = os.getenv("HOME")
+
+local workspace_path = home .. "/.local/share/nvim/jdtls-workspace/"
+local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+local workspace_dir = workspace_path .. project_name
+
 local mason = require("mason-registry")
 local jdtls_path = mason.get_package("jdtls"):get_install_path()
 
@@ -13,84 +19,102 @@ local config_path = vim.fn.glob(jdtls_path .. "/config_mac")
 
 local lombok_path = jdtls_path .. "/lombok.jar"
 
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
 local extendedClientCapabilities = jdtls.extendedClientCapabilities
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
+local bundles = {
+    vim.fn.glob(
+        vim.env.HOME .. "/.local/share/nvim/mason/share/java-debug-adapter/com.microsoft.java.debug.plugin.jar"
+    ),
+}
+
+vim.list_extend(bundles, vim.split(vim.fn.glob(vim.env.HOME .. "/.local/share/nvim/mason/share/java-test/*.jar"), "\n"))
+
 local config = {
     cmd = {
-        vim.fn.expand("~/.sdkman/candidates/java/21.0.2-amzn/bin/java"),
-
+        -- "java",
+        vim.fn.expand("~/.sdkman/candidates/java/17.0.11-amzn/bin/java"),
         "-Declipse.application=org.eclipse.jdt.ls.core.id1",
         "-Dosgi.bundles.defaultStartLevel=4",
         "-Declipse.product=org.eclipse.jdt.ls.core.product",
         "-Dlog.protocol=true",
         "-Dlog.level=ALL",
-        "-Xmx1g",
+        "-Xmx4g",
         "--add-modules=ALL-SYSTEM",
         "--add-opens",
         "java.base/java.util=ALL-UNNAMED",
         "--add-opens",
         "java.base/java.lang=ALL-UNNAMED",
-
         "-javaagent:" .. lombok_path,
-
         "-jar",
         equinox_launcher_path,
-
         "-configuration",
         config_path,
-
         "-data",
-        vim.fn.stdpath("cache") .. "/jdtls/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t"),
+        workspace_dir,
     },
+
     root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }),
-
-    capabilities = require("cmp_nvim_lsp").default_capabilities(),
-
-    flags = {
-        debounce_text_changes = 150,
-        allow_incremental_sync = true,
-    },
+    capabilities = capabilities,
 
     settings = {
         java = {
+            home = "~/.sdkman/candidates/java/17.0.11-amzn/bin/java",
             server = { launchMode = "Hybrid" },
             eclipse = {
                 downloadSources = true,
             },
-            maven = {
-                downloadSources = true,
-            },
             configuration = {
+                updateBuildConfiguration = "interactive",
                 runtimes = {
-                    -- {
-                    --     name = "JavaSE-17",
-                    --     path = "~/.sdkman/candidates/java/17.0.10-amzn",
-                    -- },
+                    {
+                        name = "JavaSE-17",
+                        path = "~/.sdkman/candidates/java/17.0.11-amzn",
+                    },
                     {
                         name = "JavaSE-21",
                         path = "~/.sdkman/candidates/java/21.0.2-amzn",
                     },
                 },
             },
-            references = {
-                includeDecompiledSources = true,
+            maven = {
+                downloadSources = true,
             },
             implementationsCodeLens = {
-                enabled = false,
+                enabled = true,
             },
             referencesCodeLens = {
-                enabled = false,
+                enabled = true,
+            },
+            references = {
+                includeDecompiledSources = true,
             },
             inlayHints = {
                 parameterNames = {
                     enabled = "all",
                 },
             },
-            signatureHelp = {
+            format = {
                 enabled = true,
-                description = {
-                    enabled = true,
+            },
+            completion = {
+                maxResults = 20,
+                favoriteStaticMembers = {
+                    "org.hamcrest.MatcherAssert.assertThat",
+                    "org.hamcrest.Matchers.*",
+                    "org.hamcrest.CoreMatchers.*",
+                    "org.junit.jupiter.api.Assertions.*",
+                    "java.util.Objects.requireNonNull",
+                    "java.util.Objects.requireNonNullElse",
+                    "org.mockito.Mockito.*",
+                },
+                importOrder = {
+                    "java",
+                    "javax",
+                    "com",
+                    "org",
                 },
             },
             sources = {
@@ -99,20 +123,20 @@ local config = {
                     staticStarThreshold = 9999,
                 },
             },
+            codeGeneration = {
+                toString = {
+                    template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+                },
+                useBlocks = true,
+            },
             saveActions = {
                 organizeImports = true,
-            },
-            format = {
-                enabled = true,
             },
             quickfix = {
                 showAt = true,
             },
             guessMethodArguments = true,
             contentProvider = { preferred = "fernflower" },
-            completion = {
-                maxResults = 20,
-            },
             import = {
                 gradle = { enabled = true },
                 generatesMetadataFilesAtProjectRoot = true,
@@ -121,30 +145,29 @@ local config = {
                     "**/node_modules/**",
                 },
             },
-            importOrder = {
-                "java",
-                "javax",
-                "org",
-                "com",
-            },
-            codeGeneration = {
-                toString = {
-                    template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
-                },
-                hashCodeEquals = {
-                    useJava7Objects = true,
-                },
-                useBlocks = true,
+        },
+        signatureHelp = {
+            enabled = true,
+            description = {
+                enabled = true,
             },
         },
+        extendedClientCapabilities = extendedClientCapabilities,
         redhat = { telemetry = { enabled = false } },
     },
-
+    flags = {
+        debounce_text_changes = 150,
+        allow_incremental_sync = true,
+    },
     init_options = {
-        bundles = {},
-        extendedClientCapabilities = extendedClientCapabilities,
+        bundles = bundles,
     },
 }
+
+config["on_attach"] = function(client, bufnr)
+    jdtls.setup_dap({ hotcodereplace = "auto" })
+    require("jdtls.dap").setup_dap_main_class_configs()
+end
 
 jdtls.start_or_attach(config)
 

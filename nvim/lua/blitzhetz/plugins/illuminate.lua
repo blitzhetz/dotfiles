@@ -12,15 +12,5 @@ return {
                 "neo-tree",
             },
         })
-
-        vim.keymap.set("n", "<leader>]", function()
-            illuminate.goto_next_reference()
-            vim.api.nvim_feedkeys("zz", "n", false)
-        end)
-
-        vim.keymap.set("n", "<leader>[", function()
-            illuminate.goto_prev_reference()
-            vim.api.nvim_feedkeys("zz", "n", false)
-        end)
     end,
 }

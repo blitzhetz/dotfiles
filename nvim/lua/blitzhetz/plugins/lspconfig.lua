@@ -28,9 +28,10 @@ return {
             },
             tsserver = {},
             eslint = {},
-            rust_analyzer = {},
             pyright = {},
             lemminx = {},
+            gradle_ls = {},
+            marksman = {},
             intelephense = {},
             html = {},
             emmet_ls = {
@@ -38,7 +39,8 @@ return {
             },
             cssls = {},
             tailwindcss = {},
-            -- jdtls = {},
+            jsonls = {},
+            yamlls = {},
         }
 
         local default_handlers = {
@@ -67,40 +69,6 @@ return {
             vim.keymap.set("n", "<leader>k", vim.lsp.buf.signature_help, opts)
             vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
         end
-
-        local function goto_definition(split_cmd)
-            local util = vim.lsp.util
-            local log = require("vim.lsp.log")
-            local api = vim.api
-
-            local handler = function(_, result, ctx)
-                if result == nil or vim.tbl_isempty(result) then
-                    local _ = log.info() and log.info(ctx.method, "No location found")
-                    return nil
-                end
-
-                if split_cmd then
-                    vim.cmd(split_cmd)
-                end
-
-                if vim.tbl_islist(result) then
-                    util.jump_to_location(result[1], "utf-8")
-
-                    if #result > 1 then
-                        util.set_qflist(util.locations_to_items(result, "utf-8"))
-                        vim.fn.setqflist(util.locations_to_items(result, "utf-8"))
-                        api.nvim_command("copen")
-                        api.nvim_command("wincmd p")
-                    end
-                else
-                    util.jump_to_location(result, "utf-8")
-                end
-            end
-
-            return handler
-        end
-
-        vim.lsp.handlers["textDocument/definition"] = goto_definition("vsplit")
 
         for name, config in pairs(servers) do
             require("lspconfig")[name].setup({

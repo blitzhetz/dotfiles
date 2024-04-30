@@ -13,24 +13,29 @@ return {
 
         require("mason-lspconfig").setup({
             ensure_installed = {
+                "lua_ls",
                 "tsserver",
+                "eslint",
+                "pyright",
                 "jdtls",
                 "lemminx",
-                "rust_analyzer",
-                "pyright",
-                "lua_ls",
+                "gradle_ls",
+                "marksman",
                 "intelephense",
                 "html",
                 "emmet_ls",
                 "cssls",
                 "tailwindcss",
-                "eslint",
+                "jsonls",
+                "yamlls",
             },
             automatic_installation = true,
         })
 
         require("mason-tool-installer").setup({
             ensure_installed = {
+                "java-debug-adapter",
+                "java-test",
                 "prettier",
                 "stylua",
                 "isort",

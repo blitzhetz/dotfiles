@@ -1,2 +1,2 @@
-require("blitzhetz.core")
 require("blitzhetz.lazy")
+require("blitzhetz.core")

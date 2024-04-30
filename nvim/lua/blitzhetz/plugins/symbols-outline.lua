@@ -33,7 +33,5 @@ return {
                 Fragment = { icon = "", hl = "@constant" },
             },
         })
-
-        vim.keymap.set("n", "<leader>so", ":SymbolsOutline<cr>")
     end,
 }

@@ -11,8 +11,14 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 require("lazy").setup({
     spec = "blitzhetz.plugins",
     ui = { border = "rounded" },
-    change_detection = { notify = false },
+    change_detection = {
+        enabled = true,
+        notify = false,
+    },
 })

@@ -17,11 +17,11 @@ vim.opt.signcolumn = "yes"
 vim.opt.pumheight = 10
 vim.opt.showmode = false
 
--- vim.opt.completeopt = { "menuone", "noselect" }
--- vim.opt.list = true
--- vim.opt.listchars:append("eol:󱞣,space:·")
--- vim.opt.showbreak = "↳⋅"
--- vim.opt.conceallevel = 1
+vim.opt.completeopt = { "menuone", "noselect" }
+vim.opt.list = true
+vim.opt.listchars:append("eol:󱞣,space:·")
+vim.opt.showbreak = "↳⋅"
+vim.opt.conceallevel = 1
 
 vim.opt.splitbelow = true
 vim.opt.splitright = true

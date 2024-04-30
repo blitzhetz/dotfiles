@@ -2,17 +2,10 @@ return {
     {
         "catppuccin/nvim",
         name = "catppuccin",
+        lazy = false,
         priority = 1000,
         config = function()
             require("catppuccin").setup({
-                -- transparent_background = true,
-                -- color_overrides = {
-                --     macchiato = {
-                --         base = "#111111",
-                --         mantle = "#111111",
-                --         crust = "#111111",
-                -- },
-                -- },
                 integrations = {
                     cmp = true,
                     gitsigns = true,
@@ -30,6 +23,11 @@ return {
                             information = { "undercurl" },
                         },
                     },
+                    indent_blankline = {
+                        enabled = false,
+                        scope_color = "sapphire",
+                        colored_indent_levels = false,
+                    },
                     telescope = true,
                     treesitter = true,
                     nvimtree = true,
@@ -42,6 +40,7 @@ return {
     {
         "rose-pine/neovim",
         name = "rose-pine",
+        lazy = false,
         config = function()
             require("rose-pine").setup({
                 disable_background = true,

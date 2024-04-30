@@ -1,7 +1,6 @@
 return {
     "nvim-telescope/telescope.nvim",
     even = "VimEnter",
-    version = false,
     dependencies = {
         "nvim-lua/plenary.nvim",
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -10,7 +9,6 @@ return {
     },
     config = function()
         local actions = require("telescope.actions")
-        local builtin = require("telescope.builtin")
 
         require("telescope").setup({
             defaults = {
@@ -48,30 +46,5 @@ return {
 
         pcall(require("telescope").load_extension, "fzf")
         pcall(require("telescope").load_extension, "ui-select")
-
-        vim.keymap.set("n", "<leader>/", function()
-            builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-                previewer = false,
-            }))
-        end)
-
-        vim.keymap.set("n", "<leader>:", "<cmd>Telescope command_history<cr>")
-
-        vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>")
-
-        vim.keymap.set("n", "<leader>ff", function()
-            builtin.find_files({})
-        end)
-
-        vim.keymap.set("n", "<leader>fg", function()
-            builtin.live_grep()
-        end)
-
-        vim.keymap.set("n", "<leader>fh", function()
-            builtin.help_tags()
-        end)
-
-        vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>")
-        vim.keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>")
     end,
 }
