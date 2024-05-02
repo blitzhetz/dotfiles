@@ -42,7 +42,7 @@ return {
 
         require("lualine").setup({
             options = {
-                theme = "catppuccin",
+                theme = "catppuccin-macchiato",
                 globalstatus = true,
             },
             sections = {

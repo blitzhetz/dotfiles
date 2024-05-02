@@ -7,11 +7,13 @@ return {
         config = function()
             require("catppuccin").setup({
                 integrations = {
+                    barbecue = {
+                        alt_background = true,
+                    },
                     cmp = true,
                     gitsigns = true,
-                    harpoon = true,
                     illuminate = true,
-                    symbols_outline = true,
+                    indent_blankline = { enabled = true },
                     mason = true,
                     markdown = true,
                     native_lsp = {
@@ -23,18 +25,34 @@ return {
                             information = { "undercurl" },
                         },
                     },
-                    indent_blankline = {
-                        enabled = false,
-                        scope_color = "sapphire",
-                        colored_indent_levels = false,
-                    },
+                    neotree = true,
+                    noice = true,
+                    notify = true,
+                    semantic_tokens = true,
+                    harpoon = true,
+                    symbols_outline = true,
                     telescope = true,
                     treesitter = true,
-                    nvimtree = true,
                 },
             })
 
             vim.cmd.colorscheme("catppuccin-macchiato")
+        end,
+    },
+    {
+        "craftzdog/solarized-osaka.nvim",
+        lazy = false,
+        priority = 1000,
+        config = function()
+            ---@diagnostic disable-next-line: missing-fields
+            require("solarized-osaka").setup({
+                transparent = true,
+                styles = {
+                    floats = "transparent",
+                },
+            })
+
+            -- vim.cmd([[colorscheme solarized-osaka]])
         end,
     },
     {
