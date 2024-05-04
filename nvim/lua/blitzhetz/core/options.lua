@@ -17,7 +17,7 @@ vim.opt.colorcolumn = "90"
 vim.opt.signcolumn = "yes"
 vim.opt.pumheight = 10
 vim.opt.showmode = false
-vim.opt.cmdheight = 0
+-- vim.opt.cmdheight = 0
 
 -- vim.opt.completeopt = { "menuone", "noselect" }
 -- vim.opt.list = true

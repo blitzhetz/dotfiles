@@ -6,6 +6,7 @@ return {
         priority = 1000,
         config = function()
             require("catppuccin").setup({
+                transparent_background = true,
                 integrations = {
                     barbecue = {
                         alt_background = true,

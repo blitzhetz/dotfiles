@@ -18,6 +18,8 @@ return {
                     },
                 },
                 bind_to_cwd = false,
+                group_empty_dirs = true,
+                scan_mode = "deep",
                 follow_current_file = { enabled = true },
                 use_libuv_file_watcher = true,
             },
