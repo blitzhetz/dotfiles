@@ -164,7 +164,9 @@ local config = {
     },
 }
 
+---@diagnostic disable-next-line: unused-local
 config["on_attach"] = function(client, bufnr)
+    ---@diagnostic disable-next-line: missing-fields
     jdtls.setup_dap({ hotcodereplace = "auto" })
     require("jdtls.dap").setup_dap_main_class_configs()
 end
@@ -191,23 +193,24 @@ vim.keymap.set("n", "<leader>co", ":lua require'jdtls'.organize_imports()<CR>")
 -- vim.keymap.set("n", "<leader>dn", "<Cmd>lua require'jdtls'.test_nearest_method()<CR>")
 vim.keymap.set("n", "<leader>de", "<Cmd>lua require('jdtls').extract_variable()<CR>")
 
-vim.cmd([[autocmd! ColorScheme * highlight NormalFloat guibg=#111111]])
-vim.cmd([[autocmd! ColorScheme * highlight FloatBorder guifg=#8aadf4 guibg=#111111]])
+-- vim.cmd([[autocmd! ColorScheme * highlight NormalFloat guibg=#111111]])
+-- vim.cmd([[autocmd! ColorScheme * highlight FloatBorder guifg=#8aadf4 guibg=#111111]])
+--
+-- local border = {
+--     { "╭", "FloatBorder" },
+--     { "─", "FloatBorder" },
+--     { "╮", "FloatBorder" },
+--     { "│", "FloatBorder" },
+--     { "╯", "FloatBorder" },
+--     { "─", "FloatBorder" },
+--     { "╰", "FloatBorder" },
+--     { "│", "FloatBorder" },
+-- }
 
-local border = {
-    { "╭", "FloatBorder" },
-    { "─", "FloatBorder" },
-    { "╮", "FloatBorder" },
-    { "│", "FloatBorder" },
-    { "╯", "FloatBorder" },
-    { "─", "FloatBorder" },
-    { "╰", "FloatBorder" },
-    { "│", "FloatBorder" },
-}
-
-local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-    opts = opts or {}
-    opts.border = opts.border or border
-    return orig_util_open_floating_preview(contents, syntax, opts, ...)
-end
+-- local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+-- ---@diagnostic disable-next-line: duplicate-set-field
+-- function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+--     opts = opts or {}
+--     opts.border = opts.border or border
+--     return orig_util_open_floating_preview(contents, syntax, opts, ...)
+-- end

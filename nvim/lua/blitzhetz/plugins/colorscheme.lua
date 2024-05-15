@@ -1,5 +1,13 @@
 return {
     {
+        "tjdevries/colorbuddy.nvim",
+        lazy = false,
+        priority = 1000,
+        config = function()
+            vim.cmd.colorscheme("gruvtty")
+        end,
+    },
+    {
         "catppuccin/nvim",
         name = "catppuccin",
         lazy = false,
@@ -37,7 +45,7 @@ return {
                 },
             })
 
-            vim.cmd.colorscheme("catppuccin-macchiato")
+            -- vim.cmd.colorscheme("catppuccin-macchiato")
         end,
     },
     {
@@ -47,9 +55,9 @@ return {
         config = function()
             ---@diagnostic disable-next-line: missing-fields
             require("solarized-osaka").setup({
-                transparent = true,
+                transparent = false,
                 styles = {
-                    floats = "transparent",
+                    floats = "normal",
                 },
             })
 

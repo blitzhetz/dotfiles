@@ -44,8 +44,8 @@ return {
         }
 
         local default_handlers = {
-            ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-            ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+            -- ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+            -- ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
         }
 
         local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -63,8 +63,8 @@ return {
             vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
             vim.keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
             vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
-            vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-            vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+            vim.keymap.set("n", "<leader>dp", vim.diagnostic.goto_prev, opts)
+            vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_next, opts)
             vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
             vim.keymap.set("n", "<leader>k", vim.lsp.buf.signature_help, opts)
             vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
@@ -80,19 +80,19 @@ return {
             })
         end
 
-        local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+        local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
         for type, icon in pairs(signs) do
             local hl = "DiagnosticSign" .. type
             vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
         end
 
-        require("lspconfig.ui.windows").default_options.border = "rounded"
+        -- require("lspconfig.ui.windows").default_options.border = "rounded"
 
         vim.diagnostic.config({
             virtual_text = true,
             float = {
                 header = false,
-                border = "rounded",
+                -- border = "rounded",
                 focusable = true,
             },
         })

@@ -13,17 +13,9 @@ vim.opt.wrap = false
 
 vim.opt.termguicolors = true
 vim.opt.background = "dark"
-vim.opt.colorcolumn = "90"
 vim.opt.signcolumn = "yes"
 vim.opt.pumheight = 10
 vim.opt.showmode = false
--- vim.opt.cmdheight = 0
-
--- vim.opt.completeopt = { "menuone", "noselect" }
--- vim.opt.list = true
--- vim.opt.listchars:append("eol:󱞣,space:·")
--- vim.opt.showbreak = "↳⋅"
--- vim.opt.conceallevel = 1
 
 vim.opt.splitbelow = true
 vim.opt.splitright = true

@@ -12,6 +12,7 @@ return {
 
         require("telescope").setup({
             defaults = {
+                borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
                 mappings = {
                     i = {
                         ["<C-k>"] = actions.move_selection_previous,
