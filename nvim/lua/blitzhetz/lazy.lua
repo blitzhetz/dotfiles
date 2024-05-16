@@ -16,7 +16,6 @@ vim.g.maplocalleader = " "
 
 require("lazy").setup({
     spec = "blitzhetz.plugins",
-    ui = { border = "rounded" },
     change_detection = {
         enabled = true,
         notify = false,

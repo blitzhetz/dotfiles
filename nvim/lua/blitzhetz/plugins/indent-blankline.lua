@@ -18,6 +18,7 @@ return {
                     "trouble",
                     "lazy",
                     "mason",
+                    "dbui",
                 },
             },
         },
@@ -42,6 +43,7 @@ return {
                     "trouble",
                     "lazy",
                     "mason",
+                    "dbui",
                 },
                 callback = function()
                     ---@diagnostic disable-next-line: inject-field

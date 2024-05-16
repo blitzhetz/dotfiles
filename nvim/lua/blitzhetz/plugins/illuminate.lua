@@ -10,6 +10,7 @@ return {
                 "TelescopePrompt",
                 "harpoon",
                 "neo-tree",
+                "dbui",
             },
         })
     end,

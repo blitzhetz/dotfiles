@@ -48,32 +48,4 @@ return {
             -- vim.cmd.colorscheme("catppuccin-macchiato")
         end,
     },
-    {
-        "craftzdog/solarized-osaka.nvim",
-        lazy = false,
-        priority = 1000,
-        config = function()
-            ---@diagnostic disable-next-line: missing-fields
-            require("solarized-osaka").setup({
-                transparent = false,
-                styles = {
-                    floats = "normal",
-                },
-            })
-
-            -- vim.cmd([[colorscheme solarized-osaka]])
-        end,
-    },
-    {
-        "rose-pine/neovim",
-        name = "rose-pine",
-        lazy = false,
-        config = function()
-            require("rose-pine").setup({
-                disable_background = true,
-            })
-
-            -- vim.cmd("colorscheme rose-pine")
-        end,
-    },
 }

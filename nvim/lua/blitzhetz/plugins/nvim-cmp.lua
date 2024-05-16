@@ -40,10 +40,6 @@ return {
                     luasnip.lsp_expand(args.body)
                 end,
             },
-            window = {
-                -- completion = cmp.config.window.bordered(),
-                -- documentation = cmp.config.window.bordered(),
-            },
             mapping = cmp.mapping.preset.insert({
                 ["<C-k>"] = cmp.mapping.select_prev_item(),
                 ["<C-j>"] = cmp.mapping.select_next_item(),
@@ -110,6 +106,13 @@ return {
             experimental = {
                 ghost_text = true,
             },
+
+            cmp.setup.filetype({ "sql" }, {
+                sources = {
+                    { name = "vim-dadbod-completion" },
+                    { name = "buffer" },
+                },
+            }),
         })
     end,
 }

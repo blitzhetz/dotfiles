@@ -86,13 +86,10 @@ return {
             vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
         end
 
-        -- require("lspconfig.ui.windows").default_options.border = "rounded"
-
         vim.diagnostic.config({
             virtual_text = true,
             float = {
                 header = false,
-                -- border = "rounded",
                 focusable = true,
             },
         })

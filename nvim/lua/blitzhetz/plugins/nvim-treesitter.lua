@@ -26,6 +26,7 @@ return {
                 "python",
                 "lua",
                 "markdown",
+                "sql",
             },
             ignore_install = {},
             modules = {},
