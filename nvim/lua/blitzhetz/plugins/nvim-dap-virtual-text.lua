@@ -3,6 +3,7 @@ return {
     lazy = true,
     opts = {
         commented = true,
+        ---@diagnostic disable-next-line: unused-local
         display_callback = function(variable, buf, stackframe, node, options)
             if options.virt_text_pos == "inline" then
                 return " = " .. variable.value

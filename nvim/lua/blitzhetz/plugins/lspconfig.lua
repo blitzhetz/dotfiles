@@ -89,6 +89,7 @@ return {
         vim.diagnostic.config({
             virtual_text = true,
             float = {
+                ---@diagnostic disable-next-line: assign-type-mismatch
                 header = false,
                 focusable = true,
             },
